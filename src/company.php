@@ -105,7 +105,7 @@ endif;
                    <label for="company_id"><b>Username</b></label>
                  <input type="text" placeholder="Enter Username" name="company_id" required class = "box1"><br /><br />
                    <label for="password"><b>Password</b></label>
-                  <input type="text" placeholder="Enter Password" name="password" required class = "box1"><br /><br />
+                  <input type="password" placeholder="Enter Password" name="password" required class = "box1"><br /><br />
                   <a href = "logout.php">Forgot your password?</a><br />
                  
                    <input type = "submit" value = " Login "/><br />
