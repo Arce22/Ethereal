@@ -48,7 +48,7 @@ if ( !empty($_POST['player_id']) && !empty($_POST['password'])):
 	if(count($results) > 0 && $_POST['password'] == $results['password'] ) {
         $_SESSION['user_id'] = $results['player_id'];
         //$_SESSION['user_type'] = player;
-		header("Location: ./market.php");
+		header("Location: ./player_market.php");
 
 	} else if(count($results) > 0 && $_POST['password'] != $results['password']) {
 		$message = 'Wrong id or password!';
