@@ -1,13 +1,9 @@
 <?php
-
 session_start();
-
 if( isset($_SESSION['admin_id']) ){
-	header("Location: ./market.php");
+	header("Location:");
 }
-
 require 'database.php';
-
 if(!empty($_POST['admin_id']) && !empty($_POST['password'])):
 	
 	$records = $conn->prepare('SELECT admin_id FROM Admin WHERE admin_id = :admin_id AND password = :password');
@@ -15,19 +11,14 @@ if(!empty($_POST['admin_id']) && !empty($_POST['password'])):
 	$records->bindParam(':password', $_POST['password']);
 	$records->execute();
 	$results = $records->fetch(PDO::FETCH_ASSOC);
-
 	$message = '';
 	if(count($results) > 0 && $_POST['admin_id'] == $results['admin_id']){
-
 		$_SESSION['admin_id'] = $results['admin_id'];
-		header("Location: ./admin.php");
-
+		header("Location: ./admin_market.php");
 	} else {
 		$message = 'Wrong username or password!';
 	}
-
 endif;
-
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +44,6 @@ endif;
 		-ms-user-select: none;
 		user-select: none;
 	}
-
 	/* The actual popup */
 	.popup .popuptext {
 		visibility: hidden;
@@ -69,7 +59,6 @@ endif;
 		left: 50%;
 		margin-left: -80px;
 	}
-
 	/* Popup arrow */
 	.popup .popuptext::after {
 		content: "";
@@ -81,25 +70,21 @@ endif;
 		border-style: solid;
 		border-color: #555 transparent transparent transparent;
 	}
-
 	/* Toggle this class - hide and show the popup */
 	.popup .show {
 		visibility: visible;
 		-webkit-animation: fadeIn 1s;
 		animation: fadeIn 1s;
 	}
-
 	/* Add animation (fade in the popup) */
 	@-webkit-keyframes fadeIn {
 		from {opacity: 0;} 
 		to {opacity: 1;}
 	}
-
 	@keyframes fadeIn {
 		from {opacity: 0;}
 		to {opacity:1 ;}
 	}
-
 	</style>
 </head>
 <body>
