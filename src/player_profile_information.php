@@ -1,61 +1,69 @@
 <?php
-
 session_start();
 require 'database.php';
-
 if( isset($_SESSION['user_id'])) {
 	header("Location: ");
 }
 
-$message = '';
-$message1 = '';
-// player_id and password control
-if( !empty($_POST['player_id_signup']) && !empty($_POST['password_signup']) && !empty($_POST['player_email']) && !empty($_POST['country']) && !empty($_POST['birth_date']) && !empty($_POST['gender'])):
-    if(empty($_POST['full_name'])){
-        $_POST['full_name'] = '';
-        
-    }
-    if(empty($_POST['biography'])) {
-        $_POST['biography'] = '';
-    }
+
+if(  !empty($_POST['e_mail_change'])):
+   
     // adding to player table
-    $records1 = $conn->prepare('insert into player values(:player_id, :password, 0.0, FALSE)');
-    $records1->bindParam(':player_id',  $_POST['player_id_signup']);
-    $records1->bindParam(':password',  $_POST['password_signup']);
-    /*$records1 = $conn->prepare('insert into player values(\'berkecan\', \'12345\', 0.0, FALSE)');*/
-    $records1->execute();
-    
-    // adding to information table
-    $records = $conn->prepare('insert into information values(:player_email, :player_id, :full_name, :birth_date, :gender, :country, :biography)');
-    $records->bindParam(':player_email',  $_POST['player_email']);
-    $records->bindParam(':player_id',  $_POST['player_id_signup']);
-    $records->bindParam(':full_name',  $_POST['full_name']);
-    $records->bindParam(':birth_date',  $_POST['birth_date']);
-    $records->bindParam(':gender',  $_POST['gender']);
-    $records->bindParam(':country',  $_POST['country']);
-    $records->bindParam(':biography',  $_POST['biography']);
-    $records->execute();
+     $records1 = $conn->prepare('UPDATE information SET player_email = :new_company_email WHERE player_id = :player_id');
+     $records1->bindParam(':player_id', $_SESSION['user_id']); 
+     $records1->bindParam(':new_company_email',  $_POST['e_mail_change']);
+   //  $records1->bindParam(':new_company_name',  $_POST['company_name_change']);
+     $records1->execute();
 
-    $message1 = 'You signed up! Please, log in.';
-    
 endif;
 
-if ( !empty($_POST['player_id']) && !empty($_POST['password'])):
+if(  !empty($_POST['full_name_change'])):
+   
+       
 
-    $records = $conn->prepare('SELECT password, player_id FROM player WHERE player_id = :player_id');
-	$records->bindParam(':player_id',  $_POST['player_id']);
-	$records->execute();
-    $results = $records->fetch(PDO::FETCH_ASSOC);
+    // adding to player table
+    $records1 = $conn->prepare('UPDATE information SET full_name = :new_full_name WHERE player_id = :player_id');
+    $records1->bindParam(':player_id', $_SESSION['user_id']); 
+     $records1->bindParam(':new_full_name',  $_POST['full_name_change']);
+   //  $records1->bindParam(':new_company_name',  $_POST['company_name_change']);
+     $records1->execute();  
 
-	if(count($results) > 0 && $_POST['password'] == $results['password'] ) {
-        $_SESSION['user_id'] = $results['player_id'];
-        //$_SESSION['user_type'] = player;
-		header("Location: ./player_market.php");
-
-	} else if(count($results) > 0 && $_POST['password'] != $results['password']) {
-		$message = 'Wrong id or password!';
-    }
 endif;
+
+
+if(  !empty($_POST['biography_change'])):
+   
+    // adding to player table
+    $records1 = $conn->prepare('UPDATE information SET biography = :new_biography WHERE player_id = :player_id');
+     $records1->bindParam(':player_id', $_SESSION['user_id']); 
+     $records1->bindParam(':new_biography',  $_POST['biography_change']);
+   //  $records1->bindParam(':new_company_name',  $_POST['company_name_change']);
+     $records1->execute();  
+
+endif;
+
+if(  !empty($_POST['country_change'])):
+    $records1 = $conn->prepare('UPDATE information SET country = :new_country WHERE player_id = :player_id');
+    $records1->bindParam(':player_id', $_SESSION['user_id']); 
+     $records1->bindParam(':new_country',  $_POST['country_change']);   
+     $records1->execute();  
+endif;
+
+
+if(  !empty($_POST['birth_date_change'])):
+    $records1 = $conn->prepare('UPDATE information SET birth_date = :new_birth_date WHERE player_id = :player_id');
+    $records1->bindParam(':player_id', $_SESSION['user_id']); 
+     $records1->bindParam(':new_birth_date',  $_POST['birth_date_change']);   
+     $records1->execute();  
+endif;
+
+if(  !empty($_POST['gender_change'])):
+    $records1 = $conn->prepare('UPDATE information SET gender = :new_gender WHERE player_id = :player_id');
+    $records1->bindParam(':player_id', $_SESSION['user_id']); 
+     $records1->bindParam(':new_gender',  $_POST['gender_change']);   
+     $records1->execute();  
+endif;
+
 ?>
 
 <!DOCTYPE html>
@@ -64,108 +72,113 @@ endif;
 body {
     background-color: lightblue;
 }
-
 h1 {
     color: white;
     text-align: center;
 }
-
 p {
     font-family: verdana;
     font-size: 20px;
 }
-table {
-    border-collapse: collapse;
-    border: 1px solid black;
-	    background-color: #f1f1c1;
-} 
-
 th,td {
     border: 1px solid black;
 	   padding: 15px;
 }
-
-table.a {
-    table-layout: auto;
-    width: 180px;    
+.vertical-menu {
+    width: 200px; /* Set a width if you like */
 }
 
-table.b {
-    table-layout: fixed;
-    width: 180px;    
+.vertical-menu a {
+    background-color: #eee; /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
 }
 
-table.c {
-    table-layout: auto;
-    width: 100%;    
+.vertical-menu a:hover {
+    background-color: #ccc; /* Dark grey background on mouse-over */
 }
 
-table.d {
-    table-layout: fixed;
-    width: 100%;    
-}
-.alert {
-    padding: 20px;
-    background-color: #f44336;
+.vertical-menu a.active {
+    background-color: #4CAF50; /* Add a green color to the "active/current" link */
     color: white;
 }
-
+.btn_name{
+    margin-right:10px;
+	margin-left:10px;
+}
+.btn-group button {
+    background-color: #4CAF50; /* Green background */
+    border: 1px solid green; /* Green border */
+    margin-top:10px;
+	margin-bottom:10px;
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 10%; /* Set a width if needed */
+    display: block; /* Make the buttons appear below each other */
+}
+.topright {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+}
+.topright1 {
+    position: absolute;
+    top: 30px;
+    right: 16px;
+    font-size: 18px;
+}
+.name-group label {
+    margin-top:10px;
+	margin-bottom:10px;
+    color: black; /* White text */
+}
+.btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+}
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: #3e8e41;
+}
 </style>
 <head>
-	<title>Player</title>
+	<title>Ethereal</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
 </head>
-
- <script language="Javascript">
-
-            function IsEmpty(){ 
-
-                 if( document.getElementById('player_id').value === ''  ||  document.getElementById('password').value === ''){
-							alert("Please, do not leave an empty field");
-				 }
-			}
-            function signUpEmpty() {
-                if( document.getElementById('player_id_signup').value === ''  ||  document.getElementById('password_signup').value === '' ||  document.getElementById('player_email').value === '' ||  document.getElementById('country').value === '' ||  document.getElementById('gender').value === '' ||  document.getElementById('birth_date').value === '') {
-							alert("Please, do not leave an empty field");
-				 }
-            }
-</script>
 <body>
-    <h1>Login</h1>
-	<h1>Player</h1>
-    <h1>Sign Up</h1>
-<table align = "right"
-	<thead>
-		<th> 
-	<form action="player.php" method="POST">
-		
-		<input type="text" placeholder="Player ID" id = "player_id" name="player_id">
-		<input type="password" placeholder="Password" id = "password" name="password">
-		<?php if(!empty($message)): ?>
-			<p><?= $message ?></p>
-		<?php endif; ?>
-		<input type="submit" onclick="IsEmpty();" value="Login" /> 
-	</form>
-		</th>
-	</thead>
-</table>
-<table align = "left"
-	<thead>
-		<th> 
-	<form action="player.php" method="POST">
-		
-		<input type="text" placeholder="Player ID" id = "player_id_signup" name="player_id_signup">
-		<input type="password" placeholder="Password" id = "password_signup" name="password_signup">
-        <input type="text" placeholder="Mail Address" id = "player_email" name="player_email">
-        <input type="text" placeholder="Full Name" id = "full_name" name="full_name">
-        <legend>Gender</legend>
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="male" value="male" checked>
-            <label for="female">Female</label>
-            <input type="radio" name="gender" id="female" value="female">
-        <input type="text" placeholder="Biography" id = "biography" name="biography">
-        <select "country" name="country">
+	<h1>Player Profile</h1>
+    <table align = "center">
+            <thead>
+				<tr>
+                    <td><a href="player_market.php"><button type="button" style="float: right;" class="btn_name">Market Place</button></td>
+	                <td><a href="player_games.php"><button type="button" style="float: right;" class="btn_name">Games</button></td>
+	                <td><a href="player_profile.php"><button type="button" style="float: right;" class="btn_name">Profile</button></td>
+				</tr>
+			 <thead>
+	</table>
+  <div class="vertical-menu">
+  <a href="player_profile_information.php">Information</a>
+        <a href="player_profile_gameHistory.php">Game History</a>
+        <a href="player_profile_addFund.php">Add Funds to Wallet</a>
+        <a href="player_profile_accountSettings.php">Account Settings</a>
+ 
+</div>
+
+    <form action = "player_profile_information.php" method = "post" align = "center">
+                <p>Information</p>
+                 
+                   <label for="e_mail_change"><b>New Email</b></label>
+                  <input type="text" placeholder="Enter Email" name="e_mail_change"  class = "box1"><br /><br />
+                  <label for="full_name_change"><b>New Full Name</b></label>
+                  <input type="text" placeholder="Enter company name" name="full_name_change"  class = "box1"><br /><br />
+                  <label for="biography_change"><b>New Biography</b></label>
+                  <input type="text" placeholder="Enter webpage" name="biography_change" class = "box1"><br /><br />
+            <label for="country_change"><b>New Country</b></label>
+            <select "country" name="country_change">
             <option value="Afghanistan">Afghanistan</option>
             <option value="Albania">Albania</option>
             <option value="Algeria">Algeria</option>
@@ -406,16 +419,38 @@ table.d {
             <option value="Zambia">Zambia</option>
             <option value="Zimbabwe">Zimbabwe</option>
         </select>
-        <input id="date" type="date" id = "birth_date" name="birth_date">
-        <?php if(!empty($message1)): ?>
-			<p><?= $message1 ?></p>
-		<?php endif; ?>
-        <input type="submit" onclick="signUpEmpty();" value="Sign Up"/>
+                      <label for="gender_change"><b>New Gender</b></label>
+                         <label for="male">Male</label>
+                        <input type="radio" name="gender_change" id="male" value="male" checked>
+                        <label for="female">Female</label>
+                      <input type="radio" name="gender_change" id="female" value="female"><br /><br />
 
-	</form>
-		</th>
-	</thead>
-</table>
+                  <label for="birth_date_change"><b>New Birth Date</b></label>
+                  <input id="date" type="date" id = "birth_date" name="birth_date_change"><br /><br />
+
+                 <input type = "submit" value = "Change"/><br />
+         
+               </form>
+
+
+     <span style="float:top" class = "topright"
+
+                <label>Player ID: </label>
+                <label><?php echo $_SESSION['user_id'];?></label> </span>
+
+                <span style="float:right" class = "topright1"
+                    <?php
+      
+                     $records = $conn->prepare('select balance from player where player_id = :player_id'); // = ' .$_SESSION['company_id'].);
+                     $records->bindParam(':player_id', $_SESSION['user_id']);
+                     $records->execute();
+                        $results = $records->fetch(PDO::FETCH_ASSOC);
+                    ?>
+                <label>Balance: $ </label>
+                    <label><?php echo $results['balance'];?></label>
+                </span>
+   </div>
+
 
 </body>
 </html>
