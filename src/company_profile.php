@@ -65,6 +65,17 @@ th,td {
     right: 16px;
     font-size: 18px;
 }
+.center {
+    height: 200px;
+    width: 400px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -200px;
+}
+
 .topright1 {
     position: absolute;
     top: 30px;
@@ -101,12 +112,106 @@ th,td {
 			 <thead>
 	</table>
 
+
+<div>
+
+      <span style="float:center" allign= "center" class = "center"
+    
+      <?php
+            
+            $records = $conn->prepare('select company_name from company where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>Company Name: </label> 
+      <label><?php echo $results['company_name'];?></label><br />
+
+       <?php
+            
+            $records = $conn->prepare('select webpage from company_info where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>Company Webpage: </label>
+      <label><?php echo $results['webpage'];?></label><br />
+
+         <?php
+            
+            $records = $conn->prepare('select company_email from company_info where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>Company E-Mail: </label>
+      <label><?php echo $results['company_email'];?></label><br />
+ 
+       <?php
+            
+            $records = $conn->prepare('select zip from company_info where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>Zipcode: </label>
+      <label><?php echo $results['zip'];?></label><br />
+
+        <?php
+            
+            $records = $conn->prepare('select state from company_info where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>State: </label>
+      <label><?php echo $results['state'];?></label><br />
+        <?php
+            
+            $records = $conn->prepare('select city from company_info where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>City: </label>
+      <label><?php echo $results['city'];?></label><br />
+
+        <?php
+            
+            $records = $conn->prepare('select district from company_info where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>District: </label>
+      <label><?php echo $results['district'];?></label><br />
+
+
+        <?php
+            
+            $records = $conn->prepare('select description from company_info where company_id = :company_id'); 
+            $records->bindParam(':company_id', $_SESSION['company_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>Description: </label>
+      <label><?php echo $results['description'];?></label><br />
+
+
+      </span>
+   </div>
+
+
 <div class="vertical-menu">
     <a href="company_profile_information.php">Information</a>
   <a href="company_profile_eventHistory.php">Event History</a>
   <a href="company_profile_accountSettings.php">Acount Settings</a>
  
 </div>
+ 
+ 
+
+<div>
      <span style="float:top" class = "topright"
 
       <label>Company ID: </label>
