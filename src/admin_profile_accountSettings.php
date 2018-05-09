@@ -176,6 +176,7 @@ th,td {
     <a href="admin_manage_users.php">Manage Users</a>
    
     <a href="admin_manage_comments.php">Manage Comments</a>
+     <a href="admin_manage_category.php">Manage Categories</a>
   <a href="admin_profile_accountSettings.php">Acount Settings</a>
  
 </div>
