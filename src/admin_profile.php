@@ -71,6 +71,12 @@ th,td {
     margin-top: -100px;
     margin-left: -200px;
 }
+.topright {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+}
 .name-group label {
     margin-top:10px;
 	margin-bottom:10px;
@@ -107,7 +113,6 @@ th,td {
       <span style="float:center" allign= "center" class = "center"
 
       <?php
-
             $records = $conn->prepare('select admin_id from admin where  admin_id = :admin_id');
             $records->bindParam(':admin_id', $_SESSION['admin_id']);
             $records->execute();
@@ -117,14 +122,13 @@ th,td {
       <label><?php echo $results['admin_id'];?></label><br />
 
        <?php
-
-            $records = $conn->prepare('select admin_email from admin_email where admin_id = : admin_id');
+            $records = $conn->prepare('select admin_email from admin where admin_id = :admin_id');
             $records->bindParam(':admin_id', $_SESSION['admin_id']);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
       <label>Admin Email: </label>
-      <label><?php echo $results['Admin Email'];?></label><br />
+      <label><?php echo $results['admin_email'];?></label><br />
 
 
       </span>
@@ -140,6 +144,13 @@ th,td {
 
 </div>
 
+<div>
+     <span style="float:top" class = "topright"
+
+      <label>Admin ID: </label>
+      <label><?php echo $_SESSION['admin_id'];?></label> </span>
+
+   </div>
 
 
 </body>
