@@ -7,7 +7,7 @@
  */
 session_start();
 require 'database.php';
-if( isset($_SESSION['company_id'])) {
+if( isset($_SESSION['admin_id'])) {
 	header("Location: ");
 }
 ?>
