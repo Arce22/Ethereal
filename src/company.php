@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 require 'database.php';
 if( isset($_SESSION['company_id'])) {
           header("Location: ");
@@ -21,26 +19,23 @@ if(!empty($_POST['company_id']) && !empty($_POST['password']) ):
      $results = $records1->fetch(PDO::FETCH_ASSOC);
   
       if(count($results) > 0 && $_POST['password'] == $results['password'] ) {
-        echo "Deletion Failed";
+       
         $_SESSION['company_id'] = $results['company_id'];
-        //$_SESSION['user_type'] = player;
+      
           header("Location: ./company_market.php");
        } else if(count($results) > 0 && $_POST['password'] != $results['password']) {
-          echo "Deletion Failed1";
-          $error = 'Wrong id or password!';
+           echo '<script language="javascript">';
+            echo 'alert("Password is incorrect!")';
+            echo '</script>';
        }
      
 endif;
-
-
     
     // adding to player tabl   
-
-if( !empty($_POST['company_id_signup']) && !empty($_POST['password_signup']) && !empty($_POST['company_name_signup']) && !empty($_POST['country_signup']) && !empty($_POST['webpage_signup'])
+if( !empty($_POST['company_id_signup']) && !empty($_POST['password_signup']) && !empty($_POST['company_name_signup']) && !empty($_POST['country_signup']) && !empty($_POST['webpage_signup']) && ($_POST['password_signup']==$_POST['password_r_signup'])
     && !empty($_POST['e_mail_signup'])&& !empty($_POST['zipcode_signup']) && !empty($_POST['district_signup']) && !empty($_POST['state_signup'])&& !empty($_POST['description_signup'])):
    
         
-
     // adding to player table
      $records1 = $conn->prepare('insert into company VALUES( :company_id, :password, :company_name, FALSE)');
      $records1->bindParam(':company_id',  $_POST['company_id_signup']);  
@@ -61,7 +56,12 @@ if( !empty($_POST['company_id_signup']) && !empty($_POST['password_signup']) && 
     $records->execute();
 endif;
 
-
+if(($_POST['password_signup'])!=($_POST['password_r_signup'])){
+  echo '<script language="javascript">';
+  echo 'alert("Password and repeat password does not match!")';
+  echo '</script>';
+  
+}
 ?>
 
 
