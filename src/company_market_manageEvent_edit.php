@@ -32,7 +32,7 @@ if( !empty($_POST['description_change'])):
       $records1->bindParam(':event_id',$event_id );
      $records1->bindParam(':new_description',  $_POST['description_change']);
      $records1->execute();
-endif
+endif;
 if( !empty($_POST['discount_change'])):
 
 	echo $_POST['discount_change']."";
@@ -188,8 +188,8 @@ c
       </span>
 
    <div>
-     <form action="company_market_manageEvent_edit.php" align = "center" method="GET"">
-			<input type="hidden" name="event_id" value="<?php echo $_GET['event_id'];?>" />
+     <form action="company_market_manageEvent_edit.php" method="GET" align = "center" ">
+			<input type="hidden" name="event_id" value="<?php echo $_GET['event_id']."";?>" />
 		
 
                 <p>Edit Event : <label><?php echo $_GET['event_id'];?></label> </p>
