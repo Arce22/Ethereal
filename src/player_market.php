@@ -101,7 +101,7 @@ th,td {
 	<link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<h1>Player Profile</h1>
+	<h1>Player Market</h1>
     <table align = "center">
             <thead>
 				<tr>
@@ -114,15 +114,91 @@ th,td {
 
 
 
+<div>   
+   <table align = "left">
+   <thead>
+        <th>Categories:</th><br />
+    </thead>
+    <tbody>
+        <?php
 
+        $records = $conn->prepare('SELECT category_name FROM game_category');
+        $records->execute();
+        $results = $records->fetchAll();
 
-<div class="vertical-menu">
-<a href="player_profile_information.php">Information</a>
-        <a href="player_profile_gameHistory.php">Game History</a>
-        <a href="player_profile_addFund.php">Add Funds to Wallet</a>
-        <a href="player_profile_accountSettings.php">Account Settings</a>
- 
-</div>
+        foreach($results as $result)
+        {
+            echo "<tr>";
+            echo "<td>" . $result['category_name'] . "</td>" . "<br>";
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+  </table>
+  <div>   
+   <table align = "center">
+   <thead>
+        <th>Games</th><br />
+        <th>Developer</th><br />
+        <th>Description</th><br />
+        <th>Release Date</th><br />
+        <th>Category</th><br />
+        <th>Company</th><br />
+        <th>Price</th><br />
+    </thead>
+    <tbody>
+        <?php
+
+        $records = $conn->prepare('SELECT game_name, developer, description, published_date, category_name, company_id, price FROM game');
+        $records->execute();
+        $results = $records->fetchAll();
+
+        foreach($results as $result)
+        {
+            echo "<tr>";
+            echo "<td>" . $result['game_name'] . "</td>" . "<br>";
+            echo "<td>" . $result['developer'] . "</td>" . "<br>";
+            echo "<td>" . $result['description'] . "</td>" . "<br>";
+            echo "<td>" . $result['published_date'] . "</td>" . "<br>";
+            echo "<td>" . $result['category_name'] . "</td>" . "<br>";
+            echo "<td>" . $result['company_id'] . "</td>" . "<br>";
+            echo "<td>" . $result['price'] . "</td>" . "<br>";
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+  </table>
+
+ </div>
+
+ <div>   
+   <table align = "center">
+   <thead>
+        <th>Games</th><br />
+        <th>Price</th><br />
+        <th>Buy Now!</th><br />
+    </thead>
+    <tbody>
+        <?php
+
+        $records1 = $conn->prepare('SELECT game_name, price from game where game_name not in (select game_name from bought where player_id = :player_id)');
+        $records1->bindParam(':player_id', $_SESSION['user_id']);
+        $records1->execute();
+        $results1 = $records1->fetchAll();
+
+        foreach($results1 as $result)
+        {
+            echo "<tr>";
+            echo "<td>" . $result['game_name'] . "</td>" . "<br>";
+            echo "<td>" . $result['price'] . "</td>" . "<br>";
+            echo "<td><a href =\"./buy_game.php?game_name="  . $result['game_name']. "\"><input type=\"submit\"  value=\"Buy\" /></form></td>";
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+  </table>
+
+ </div>
  
  
 
