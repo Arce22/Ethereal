@@ -140,7 +140,7 @@ endif;
 
 <div class="vertical-menu">
     <a href="company_games_addEvent.php">Add Event</a>
-    <a href="company_manage_event.php">Manage Events</a>
+    <a href="company_market_manageEvent.php">Manage Events</a>
 
 </div>
 
