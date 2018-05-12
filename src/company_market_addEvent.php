@@ -14,23 +14,27 @@ if( isset($_SESSION['company_id'])) {
 if(!empty($_POST['game_name']) && !empty($_POST['event_id']) && !empty($_POST['percent'])):
 echo "selected game :" .$game_name."";
 
-    $records = $conn->prepare('INSERT INTO discount SET game_name = :game_name, company_id = :company_id, event_id = :event_id , percent = :percent VALUES company_id, game_name, event_id, percent');
-    $records->bindParam(':company_id',$_SESSION['company_id']);
-    $records->bindParam(':game_name' , $_POST['game_name']);
-    $records->bindParam(':event_id' , $_POST['event_id']);
-    $records->bindParam(':percent' , $_POST['percent']);
+    $records = $conn->prepare('INSERT INTO discount VALUES new_company_id, new_game_name, new_event_id, new_percent');
+    $records->bindParam('new_company_id',$_SESSION['company_id']);
+    $records->bindParam('new_game_name' , $_POST['game_name']);
+    $records->bindParam('new_event_id' , $_POST['event_id']);
+    $records->bindParam('new_percent' , $_POST['percent']);
     $records->execute();
+ if($records)
+    { echo "<script type=\"text/javascript\"> alert('success creating discount'); </script>";}
 endif;
 
 if(!empty($_POST['game_name']) && !empty($_POST['event_id']) && !empty($_POST['percent']) && !empty($_POST['description']) && !empty($_POST['end_date'])):
 
-    $records = $conn->prepare('INSERT INTO event SET event_id = :event_id, description = :description , end_date = :end_date, start_date = :start_date , event_name = :event_name VALUES event_id, event_name, start_date, end_date, description');
-    $records->bindParam(':event_id' , $_POST['event_id']);
-    $records->bindParam(':event_name' , $_POST['event_name']);
-    $records->bindParam(':description' , $_POST['description']);
-    $records->bindParam(':start_date' , $_POST['start_date']);
-    $records->bindParam(':end_date' , $_POST['end_date']);
+    $records = $conn->prepare('INSERT INTO event VALUES new_event_id, new_event_name, new_start_date, new_end_date, new_description');
+    $records->bindParam('new_event_id' , $_POST['event_id']);
+    $records->bindParam('new_event_name' , $_POST['event_name']);
+    $records->bindParam('new_description' , $_POST['description']);
+    $records->bindParam('new_start_date' , $_POST['start_date']);
+    $records->bindParam('new_end_date' , $_POST['end_date']);
     $records->execute();
+ if($records)
+    {echo "<script type=\"text/javascript\"> alert('success creating event'); </script>";}
 endif;
 
 
@@ -177,8 +181,10 @@ endif;
             $records = $conn->prepare('select game_name from game where company_id = :company_id'); // = ' .$_SESSION['company_id'].);
             $records->bindParam(':company_id', $_SESSION['company_id']);
             $records->execute();
-            $results = $records->fetch(PDO::FETCH_ASSOC);
+            $results = $records->fetchAll();
+            foreach($results as $result){
             echo "<option value =\" " . $results['game_name'] . " \"> " . $results['game_name'] . "</option> ";
+            }
             ?>
 
         </select>
