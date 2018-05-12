@@ -174,7 +174,7 @@ endif;
         <p>Select Game</p>
         <select name="gameList" multiple>
 
-            <option value ="Game Name">Option View</option>
+            <option value ="Game Name">Select Game</option>
 
             <?php
 
@@ -183,7 +183,7 @@ endif;
             $records->execute();
             $results = $records->fetchAll();
             foreach($results as $result){
-            echo "<option value =\" " . $results['game_name'] . " \"> " . $results['game_name'] . "</option> ";
+            echo "<option value =\" " . $result['game_name'] . " \"> " . $result['game_name'] . "</option> ";
             }
             ?>
 
