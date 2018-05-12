@@ -147,7 +147,7 @@ th,td {
 	<link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<h1>Player Profile</h1>
+	<h1>Company Profile</h1>
     <table align = "center">
             <thead>
 				<tr>

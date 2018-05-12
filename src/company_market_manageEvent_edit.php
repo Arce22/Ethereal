@@ -7,17 +7,27 @@ if( isset($_SESSION['company_id'])) {
 }
 //including the database connection file
 
- 
+if(isset($_GET['event_id'])){
+    $event_id = $_GET['event_id'];
+    echo $event_id;
+  } else {
+    $event_id = $_GET['event_id'];
+    echo $event_id;
+  }
 //getting id of the data from url
-$event_id = $_GET['event_id'];
+//$event_id = $_COOKIE['event_id'];
+//$event_id =  $_GET['event_id'];
+$company_id = $_SESSION['company_id'];
 
-
+echo $event_id;
+echo $company_id;
+/*
 if( !empty($_POST['event_name_change'])):
 echo "event :".$event_id. "";
  	$records1 = $conn->prepare('UPDATE event SET event_name = :new_event_name WHERE event_id = :event_id');
-     $records1->bindParam(':new_event_name',  $_POST['event_name_change']);
-        $records1->bindParam(':event_id',$event_id);
-     $records1->execute();
+    $records1->bindParam(':new_event_name',  $_POST['event_name_change']);
+    $records1->bindParam(':event_id',$event_id);
+    $records1->execute();
 
 endif;
 if( !empty($_POST['end_date_change'])):
@@ -32,26 +42,15 @@ if( !empty($_POST['description_change'])):
       $records1->bindParam(':event_id',$event_id );
      $records1->bindParam(':new_description',  $_POST['description_change']);
      $records1->execute();
-endif;
-if( !empty($_POST['discount_change'])):
+endif;*/
 
-	echo $_POST['discount_change']."";
-	echo $event_id."";
- 	$records1 = $conn->prepare('UPDATE discount SET percent = :new_percent WHERE event_id = :event_id and company_id=:company_id');
-      $records1->bindParam(':company_id', $_SESSION['company_id']);
-      $records1->bindParam(':event_id',$event_id );
+if( !empty($_POST['discount_change'])):
+ 	$records1 = $conn->prepare('UPDATE discount SET percent = :new_percent WHERE event_id = :event_id');
+     $records1->bindParam(':event_id', $event_id);
      $records1->bindParam(':new_percent',  $_POST['discount_change']);
      $records1->execute();
 
 endif;
-
-//redirecting to the display page (index.php in our case)
-
-
-  echo '<script language="javascript">';
-      echo 'alert("Event edited succesfully!")';
-      echo '</script>';
-      //header("Location:company_market_manageEvent.php");
 ?>
 
 
@@ -146,11 +145,19 @@ th,td {
     background-color: #3e8e41;
 }
 </style>
+
+
+
+
+
 <head>
 	<title>Ethereal</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
 </head>
+
+
+
 <body>
 	<h1>Welcome to Market</h1>
     <table align = "center">
@@ -168,7 +175,9 @@ th,td {
     <a href="company_market_addEvent.php">Add Event</a>
     <a href="company_market_manageEvent.php">Manage Events</a>
 </div>
-c
+
+
+
     <span style="float:top" class = "topright"
 
       <label>Company ID: </label>
@@ -187,15 +196,16 @@ c
      
       </span>
 
-   <div>
-     <form action="company_market_manageEvent_edit.php" method="GET" align = "center" ">
-			<input type="hidden" name="event_id" value="<?php echo $_GET['event_id']."";?>" />
-		
 
-                <p>Edit Event : <label><?php echo $_GET['event_id'];?></label> </p>
-                 
+
+   <div>
+     <form action="company_market_manageEvent_edit.php" method="GET" align = "center">
+
+        <?php $event_id = $_GET['event_id'];?>
+                    
                    <label for="event_name_change"><b>Change Event name</b></label>
                   <input type="text" placeholder="Enter event name" name="event_name_change"  class = "box1"><br /><br />
+
                    <label for="description_change"><b>Change Description</b></label>
                   <input type="text" placeholder="Enter description" name="description_change"  class = "box1"><br /><br />
 
@@ -207,7 +217,7 @@ c
                   
                  <input type = "submit" value = "Save Changes"/><br />
          
-               </form>
+        </form>
   
  
    </div>

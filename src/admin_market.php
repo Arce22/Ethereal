@@ -117,8 +117,8 @@ th,td {
         ?>
        <table align = "center">
             <tr>
-             <td><a href="admin_manage_event.php"><button type="button">Manage Events</button></td>
-             
+             <td><a href="admin_delete_event.php"><button type="button">Delete Event</button></td>
+             <td><a href="admin_change_event.php"><button type="button">Change Event</button></td>
             </tr>
        </table>
     </ul>
@@ -145,8 +145,9 @@ th,td {
         ?>
          <thead>
          <tr>
-        <td><a href="admin_manage_category.php"><button type="button">Manage Categories</button></td>
-      
+        <td><a href="admin_delete_category.php"><button type="button">Delete Categories</button></td>
+        <td><a href="admin_change_category.php"><button type="button">Change Categories</button></td>
+        <td><a href="admin_add_category.php"><button type="button">Add Categories</button></td>
        </tr>
         </thead>
      </ul>
@@ -162,6 +163,17 @@ th,td {
       <label>Admin ID: </label>
       <label><?php echo $_SESSION['admin_id'];?></label> </span>
 
+      <span style="float:right" class = "topright1"
+      <?php
+			
+            $records = $conn->prepare('select admin_name from admin where admin_id = :admin_id'); // = ' .$_SESSION['company_id'].);
+            $records->bindParam(':admin_id', $_SESSION['admin_id']);
+            $records->execute();
+            $results = $records->fetch(PDO::FETCH_ASSOC);
+      ?>
+      <label>Admin Name: </label>
+      <label><?php echo $results['admin_name'];?></label>
+    </span>
   </div>
  
 </body>

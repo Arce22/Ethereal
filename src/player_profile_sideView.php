@@ -4,6 +4,11 @@ require 'database.php';
 if( isset($_SESSION['user_id'])) {
 	header("Location: ");
 }
+
+$added_id = $_GET['added_id'];
+$player_id = $_SESSION['user_id'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -120,7 +125,7 @@ th,td {
       <?php
             
             $records = $conn->prepare('select full_name from information where player_id = :player_id'); 
-            $records->bindParam(':player_id', $_SESSION['user_id']);
+            $records->bindParam(':player_id', $added_id);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
@@ -130,7 +135,7 @@ th,td {
        <?php
             
             $records = $conn->prepare('select player_id from information where player_id = :player_id'); 
-            $records->bindParam(':player_id', $_SESSION['user_id']);
+            $records->bindParam(':player_id', $added_id);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
@@ -140,7 +145,7 @@ th,td {
          <?php
             
             $records = $conn->prepare('select player_email from information where player_id = :player_id'); 
-            $records->bindParam(':player_id', $_SESSION['user_id']);
+            $records->bindParam(':player_id', $added_id);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
@@ -150,7 +155,7 @@ th,td {
        <?php
             
             $records = $conn->prepare('select country from information where player_id = :player_id'); 
-            $records->bindParam(':player_id', $_SESSION['user_id']);
+            $records->bindParam(':player_id', $added_id);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
@@ -160,7 +165,7 @@ th,td {
         <?php
             
             $records = $conn->prepare('select gender from information where player_id = :player_id'); 
-            $records->bindParam(':player_id', $_SESSION['user_id']);
+            $records->bindParam(':player_id', $added_id);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
@@ -169,7 +174,7 @@ th,td {
         <?php
             
             $records = $conn->prepare('select birth_date from information where player_id = :player_id'); 
-            $records->bindParam(':player_id', $_SESSION['user_id']);
+            $records->bindParam(':player_id', $added_id);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
@@ -179,7 +184,7 @@ th,td {
         <?php
             
             $records = $conn->prepare('select biography from information where player_id = :player_id'); 
-            $records->bindParam(':player_id', $_SESSION['user_id']);
+            $records->bindParam(':player_id', $added_id);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
       ?>
@@ -192,24 +197,20 @@ th,td {
     <div>   
    <table align = "right">
    <thead>
-        <th>Friends</th><br />
-        <th>Profiles</th><br />
-
+        <th>Bought Games</th><br />
     </thead>
     <tbody>
         <?php
 
-        $records1 = $conn->prepare('SELECT added_id from friended where adder_id = :player_id union select adder_id from friended where added_id = :player_id ');
-        $records1->bindParam(':player_id', $_SESSION['user_id']);
+        $records1 = $conn->prepare('SELECT game_name from bought where player_id = :player_id');
+        $records1->bindParam(':player_id', $added_id);
         $records1->execute();
         $results1 = $records1->fetchAll();
 
         foreach($results1 as $result)
         {
             echo "<tr>";
-            echo "<td>" . $result['added_id'] . "</td>" . "<br>";
-            echo "<td><a href =\"./player_profile_sideView.php?added_id="  . $result['added_id']. "\"><input type=\"submit\"  value=\"See\" /></form></td>";
-         
+            echo "<td>" . $result['game_name'] . "</td>" . "<br>";
             echo "</tr>";
         }
         ?>
@@ -217,6 +218,35 @@ th,td {
   </table>
 
  </div>
+
+  <div>   
+   <table align = "right">
+   <thead>
+        <th>Lastly Played Games</th><br />
+        <th>Date</th><br />
+    </thead>
+    <tbody>
+        <?php
+
+        $records1 = $conn->prepare('SELECT game_name, played_date from played where player_id = :player_id');
+        $records1->bindParam(':player_id', $added_id);
+        $records1->execute();
+        $results1 = $records1->fetchAll();
+
+        foreach($results1 as $result)
+        {
+            echo "<tr>";
+            echo "<td>" . $result['game_name'] . "</td>" . "<br>";
+            echo "<td>" . $result['played_date'] . "</td>" . "<br>";
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+  </table>
+
+ </div>
+
+
 
 
 <div class="vertical-menu">
