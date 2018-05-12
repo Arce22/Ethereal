@@ -137,8 +137,9 @@ th,td {
 
 <div class="vertical-menu">
     <a href="admin_manage_companies.php">Manage Companies</a>
-    <a href="admin_manage_users.php">Manage Users</a>
+    <a href="admin_manage_players.php">Manage Players</a>
     <a href="admin_manage_comments.php">Manage Comments</a>
+     <a href="admin_manage_categories.php">Manage Categories</a>
   <a href="admin_profile_accountSettings.php">Acount Settings</a>
 
 
