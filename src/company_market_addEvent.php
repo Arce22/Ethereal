@@ -144,7 +144,7 @@ endif;
 
 </div>
 
-<form action = "company_games_addEvent.php" method = "post" align = "center">
+<form action = "company_market_addEvent.php" method = "post" align = "center">
     <p>Add Event</p>
 
     <label for="event_id"><b>Event ID : </b></label>
