@@ -174,7 +174,7 @@ endif;
 
             <?php
 
-            $records = $conn->prepare('select game_name from owns where company_id = :company_id'); // = ' .$_SESSION['company_id'].);
+            $records = $conn->prepare('select game_name from game where company_id = :company_id'); // = ' .$_SESSION['company_id'].);
             $records->bindParam(':company_id', $_SESSION['company_id']);
             $records->execute();
             $results = $records->fetch(PDO::FETCH_ASSOC);
