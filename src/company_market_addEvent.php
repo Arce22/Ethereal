@@ -13,13 +13,16 @@ if( isset($_SESSION['company_id'])) {
 
 if(!empty($_POST['game_name']) && !empty($_POST['event_id']) && !empty($_POST['percent']) && !empty($_POST['description']) && !empty($_POST['end_date'])):
 echo $_POST['start_date'] ;
+
+$game_name =  $_POST['game_name'];
+    $company_id =   $_SESSION['company_id'] ;
+    $event_id =  $_POST['event_id'];
+    $percent =  $_POST['percent'];
 //:event_id, :event_name, :start_date, :end_date, :description
 //':event_id ' => $_POST['event_id'], ':event_name' => $_POST['event_name'], ':start_date' => $_POST['start_date'], ':end_date' => $_POST['end_date'], ':description' => $_POST['description'])
     $records = $conn->prepare('insert into event (event_id, event_name, start_date, end_date, description) values (?,?,?,?,?)');
     $records->execute(array($_POST['event_id'],  $_POST['event_name'], $_POST['start_date'],  $_POST['end_date'],  $_POST['description']));
-    $sonuc = $records->errorInfo();
 
-    print_r($sonuc);
 
     $records1 = $conn->prepare('insert into discount (company_id, game_name, event_id, percent )values (?,?,?,?)');
     echo  $_POST['game_name'];
@@ -27,10 +30,8 @@ echo $_POST['start_date'] ;
    // $records1->bindParam('game_name' , $_POST['game_name']);
     //$records1->bindParam('event_id' , $_POST['event_id']);
     //$records1->bindParam('percent' , $_POST['percent']); $_SESSION['company_id']
-    $records1->execute(array("a",  $_POST['game_name'], $_POST['event_id'],  $_POST['percent']));
-    $sonuc = $records1->errorInfo();
+    $records1->execute(array( $_SESSION['company_id'] ,  $game_name, $event_id,  $percent));
 
-    print_r($sonuc);
 endif;
 
 
@@ -141,7 +142,7 @@ endif;
 
 <div class="vertical-menu">
     <a href="company_market_addEvent.php">Add Event</a>
-    <a href="company_market_manageEvent.php">Manage Events</a>
+    <a href="company_manage_event.php">Manage Events</a>
 
 </div>
 
@@ -175,12 +176,12 @@ endif;
 
             $records = $conn->prepare('select game_name from game where company_id = :company_id'); // = ' .$_SESSION['company_id'].);
             //
-            $company = "a";
+            $company =  $_SESSION['company_id'];
             $records->bindParam(':company_id',$company );
             $records->execute();
             $results = $records->fetchAll();
             foreach($results as $result){
-                echo "<option value =\" " . $result['game_name'] . " \"> " . $result['game_name'] . "</option> ";
+                echo "<option value =\"" . $result['game_name'] . "\"> " . $result['game_name'] . "</option> ";
             }
             ?>
 
