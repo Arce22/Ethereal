@@ -4,6 +4,31 @@ require 'database.php';
 if( isset($_SESSION['user_id'])) {
 	header("Location: ");
 }
+$message = '';
+if(  !empty($_POST['player_id_search'])):
+   
+     // adding to player table
+     $records1 = $conn->prepare('SELECT player_id from player where player_id = :player_search and player_id not in (select blocker_id from blocked where blocked_id = :player_id union select blocked_id from blocked where blocker_id = :player_id)'); // company_info SET company_email = :new_company_email WHERE company_id = :company_id');
+     $records1->bindParam(':player_search', $_POST['player_id_search']); 
+     $records1->bindParam(':player_id', $_SESSION['user_id']); 
+    // $records1->bindParam(':new_company_email',  $_POST['e_mail_change']);
+   //  $records1->bindParam(':new_company_name',  $_POST['company_name_change']);
+     $records1->execute();
+     $results = $records1->fetch(PDO::FETCH_ASSOC);
+
+
+    if(count($results['player_id']) > 0 ) {
+        echo $results['player_id'];
+        echo "<td><a href =\"./add_friend.php?added_id="  . $results['player_id'] . "\"><input type=\"s\"  value=\"Add Friend\"/></form></td>";
+        //$_SESSION['user_type'] = player;
+        $message = 'User is found!';
+	} else {
+		$message = 'User does not exist!';
+    } 
+
+endif;
+
+
 ?>
 
 <!DOCTYPE html>
@@ -199,7 +224,7 @@ th,td {
     <tbody>
         <?php
 
-        $records1 = $conn->prepare('SELECT added_id from friended where adder_id = :player_id union select adder_id from friended where added_id = :player_id ');
+        $records1 = $conn->prepare('SELECT added_id from friended where adder_id = :player_id and added_id not in (select blocker_id from blocked where blocked_id = :player_id union select blocked_id from blocked where blocker_id = :player_id) union select adder_id from friended where added_id = :player_id and adder_id not in (select blocker_id from blocked where blocked_id = :player_id union select blocked_id from blocked where blocker_id = :player_id)');
         $records1->bindParam(':player_id', $_SESSION['user_id']);
         $records1->execute();
         $results1 = $records1->fetchAll();
@@ -224,9 +249,19 @@ th,td {
         <a href="player_profile_gameHistory.php">Game History</a>
         <a href="player_profile_addFund.php">Add Funds to Wallet</a>
         <a href="player_profile_accountSettings.php">Account Settings</a>
- 
+
+        <form action = "player_profile.php" method = "post" align="left">
+        
+        <label for="description"><b>Search a Player</b></label>
+        <input type="text" placeholder="Enter Played ID" name="player_id_search" class = "box1"><br /><br />
+        <?php if(!empty($message)): ?>
+			<p><?= $message ?></p>
+		<?php endif; ?>
+        <input type = "submit" value = "Search"/><br />
+
+        </form>
+        
 </div>
- 
  
 
 <div>

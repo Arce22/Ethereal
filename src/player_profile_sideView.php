@@ -254,10 +254,11 @@ th,td {
         <a href="player_profile_gameHistory.php">Game History</a>
         <a href="player_profile_addFund.php">Add Funds to Wallet</a>
         <a href="player_profile_accountSettings.php">Account Settings</a>
- 
 </div>
  
  
+<?php echo "<td><a href =\"./unfriend_player.php?added_id="  . $added_id . "\"><input type=\"submit\"  value=\"Unfriend\" /></form></td>";
+      echo "<td><a href =\"./block_player.php?added_id="  . $added_id . "\"><input type=\"submit\"  value=\"Block\" /></form></td>"; ?>
 
 <div>
      <span style="float:top" class = "topright"
