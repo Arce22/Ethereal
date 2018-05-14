@@ -163,7 +163,7 @@ th,td {
         {
             echo "<tr>";
             echo "<td>" . $result['event_id'] . "</td>" . "<br>";
-            echo "<td><a href =\"./company_market_manageEvent_edit.php?event_id="  . $result['event_id']. "\"><input type=\"submit\"  value=\"Edit\" /></form></td>";
+            echo "<td><a href =\"./company_market_editEvent.php?event_id="  . $result['event_id']. "\"><input type=\"submit\"  value=\"Edit\" /></form></td>";
             echo "<td><a href =\"./company_market_manageEvent_delete.php?event_id="  . $result['event_id']. "\"><input type=\"submit\"  value=\"Delete\" /></form></td>";
             echo "</tr>";
         }
