@@ -10,7 +10,26 @@ if( isset($_SESSION['user_id'])) {
 $message = '';
 $message1 = '';
 // player_id and password control
-if( !empty($_POST['player_id_signup']) && !empty($_POST['password_signup']) && !empty($_POST['player_email']) && !empty($_POST['country']) && !empty($_POST['birth_date']) && !empty($_POST['gender'])):
+ 
+            $flag1=TRUE;
+
+  $records2 = $conn->prepare('select * from player'); // = ' .$_SESSION['company_id'].);
+            $records2->execute();
+            $results2 = $records2->fetchAll(); //(PDO::FETCH_ASSOC)
+
+            foreach($results2 as $result2) {
+              if($result2['player_id']==$_POST['player_id_signup'] )
+              {
+                $flag1=FALSE;
+                  echo '<script language="javascript">';
+              echo 'alert("There is already a Player with this name!")';
+             echo '</script>';
+              }
+
+}
+    
+
+if( !empty($_POST['player_id_signup']) && !empty($_POST['password_signup']) && !empty($_POST['player_email']) && !empty($_POST['country']) && !empty($_POST['birth_date']) && !empty($_POST['gender'])&& $flag1==TRUE ):
     if(empty($_POST['full_name'])){
         $_POST['full_name'] = '';
         
@@ -35,10 +54,13 @@ if( !empty($_POST['player_id_signup']) && !empty($_POST['password_signup']) && !
     $records->bindParam(':country',  $_POST['country']);
     $records->bindParam(':biography',  $_POST['biography']);
     $records->execute();
-
-    $message1 = 'You signed up! Please, log in.';
+      echo '<script language="javascript">';
+  echo 'alert("You signed up sucessfully. Please log in!")';
+  echo '</script>';
     
 endif;
+
+
 
 if ( !empty($_POST['player_id']) && !empty($_POST['password'])):
 
@@ -47,14 +69,36 @@ if ( !empty($_POST['player_id']) && !empty($_POST['password'])):
 	$records->execute();
     $results = $records->fetch(PDO::FETCH_ASSOC);
 
+     
+
+
 	if(count($results) > 0 && $_POST['password'] == $results['password'] ) {
-        $_SESSION['user_id'] = $results['player_id'];
+
+         $records2 = $conn->prepare('select * from banned where player_id = :player_id'); // = ' .$_SESSION['company_id'].);
+             $records2->bindParam(':player_id',  $_POST['player_id']);
+            $records2->execute();
+            $results2 = $records2->fetchAll(); //(PDO::FETCH_ASSOC)
+
+        if(count( $results2)==0){
+             $_SESSION['user_id'] = $results['player_id'];
         //$_SESSION['user_type'] = player;
-		header("Location: ./player_market.php");
+            header("Location: ./player_market.php");
+        }
+          
+         else if(count( $results2)>0){
+            echo '<script language="javascript">';
+            echo 'alert("You are banned!")';
+            echo '</script>';
+        }
+     
+        
+        
 
 	} else if(count($results) > 0 && $_POST['password'] != $results['password']) {
 		$message = 'Wrong id or password!';
     }
+
+
 endif;
 ?>
 
