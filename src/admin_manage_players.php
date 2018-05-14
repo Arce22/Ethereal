@@ -150,7 +150,7 @@ th,td {
 
    
              echo $result['player_id'];
-             echo "&nbsp&nbsp<td><a href =\"./player_profile_sideView.php?player_id=" . $result['player_id']. "\"><input type=\"submit\"  value=\"Information\" /></a></form></td>";
+             echo "&nbsp&nbsp<td><a href =\"./admin_player_profile_sideView.php?player_id=" . $result['player_id']. "\"><input type=\"submit\"  value=\"Information\" /></a></form></td>";
              echo "&nbsp&nbsp<td><a href =\"./admin_manage_players_ban.php?player_id="  . $result['player_id']. "\"><input type=\"submit\"  value=\"Ban\" /></a></form></td>";
               echo "&nbsp&nbsp<td><a href =\"./admin_manage_players_warned.php?player_id="  . $result['player_id']. "\"><input type=\"submit\"  value=\"Warn\" /></a></form></td>";
              echo "</br>";
