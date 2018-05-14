@@ -15,8 +15,8 @@ if( isset($_SESSION['company_id'])) {
 if(!empty($_POST['game_name']) && !empty($_POST['change_log']) && !empty($_POST['update_date'])) {
 
     $records = $conn->prepare('insert into updates(company_id, game_name, update_date, change_log) values (?,?,?,?)');
-    //$company =  $_SESSION['company_id'] ;
-    $company = "a" ;
+    $company =  $_SESSION['company_id'] ;
+    //$company = "a" ;
     $records->execute( array($company, $_POST['game_name'], $_POST['published_date'] , $_POST['change_log'] ));
     $sonuc = $records->errorInfo();
     print_r($sonuc);
@@ -150,8 +150,8 @@ if(!empty($_POST['game_name']) && !empty($_POST['change_log']) && !empty($_POST[
             <?php
 
             $records = $conn->prepare('select game_name from game where company_id = :company_id'); // = ' .$_SESSION['company_id'].);
-            //$company = $_SESSION['company_id'] ;
-            $company = "a";
+            $company = $_SESSION['company_id'] ;
+            //$company = "a";
             $records->bindParam(':company_id',$company );
             $records->execute();
             $results = $records->fetchAll();
