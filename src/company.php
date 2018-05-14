@@ -51,19 +51,27 @@ if(!empty($_POST['company_id']) && !empty($_POST['password']) ):
        }
      
 endif;
-
+   $flag1=TRUE;
 
   $records2 = $conn->prepare('select * from company'); // = ' .$_SESSION['company_id'].);
             $records2->execute();
             $results2 = $records2->fetchAll(); //(PDO::FETCH_ASSOC)
 
             foreach($results2 as $result2) {
+              if($result2['company_id']==$_POST['company_id_signup'] )
+              {
+                $flag1=FALSE;
+                  echo '<script language="javascript">';
+              echo 'alert("There is already a Company with this name!")';
+             echo '</script>';
+              }
 
+}
     
     // adding to player tabl   
 
 if( !empty($_POST['company_id_signup']) && !empty($_POST['password_signup']) && !empty($_POST['company_name_signup']) && !empty($_POST['country_signup']) && !empty($_POST['webpage_signup']) && ($_POST['password_signup']==$_POST['password_r_signup'])
-    && !empty($_POST['e_mail_signup'])&& !empty($_POST['zipcode_signup']) && !empty($_POST['district_signup']) && !empty($_POST['state_signup'])&& !empty($_POST['description_signup']) && $result2['company_id']!=$_POST['company_id_signup']  ):
+    && !empty($_POST['e_mail_signup'])&& !empty($_POST['zipcode_signup']) && !empty($_POST['district_signup']) && !empty($_POST['state_signup'])&& !empty($_POST['description_signup']) && $flag1==TRUE ):
   
     // adding to player table
      $records1 = $conn->prepare('insert into company VALUES( :company_id, :password, :company_name, NULL)');
@@ -83,26 +91,12 @@ if( !empty($_POST['company_id_signup']) && !empty($_POST['password_signup']) && 
     $records->bindParam(':district',  $_POST['district_signup']);
     $records->bindParam(':description',  $_POST['description_signup']);
     $records->execute();
-    $flag=1;
+     echo '<script language="javascript">';
+  echo 'alert("You signed up sucessfully. Please wait for aprroval by admin!")';
+  echo '</script>';
 
 endif;
 
-if($result2['company_id']==$_POST['company_id_signup'] ){
-
-    echo '<script language="javascript">';
-  echo 'alert("There is already a Company with this name!")';
-  echo '</script>';
-}
-
-
-}
-if($flag==1)
-   {
-       echo '<script language="javascript">';
-  echo 'alert("You signed up sucessfully. Please wait for aprroval by admin!")';
-  echo '</script>';
-   }
- 
  
     if(($_POST['password_signup'])!=($_POST['password_r_signup'])){
       echo '<script language="javascript">';
