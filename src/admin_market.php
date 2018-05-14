@@ -117,7 +117,7 @@ th,td {
         ?>
        <table align = "center">
             <tr>
-             <td><a href="admin_manage_event.php"><button type="button">Manage Events</button></td>
+             <td><a href="admin_market_manageEvent.php"><button type="button">Manage Events</button></td>
              
             </tr>
        </table>
