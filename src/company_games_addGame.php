@@ -176,7 +176,7 @@ else
             ?>
 
         </select>
-    </label>
+    </label><br /><br />
 
 
     <label for="image"><b>Image of Game : </b></label>
