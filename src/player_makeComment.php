@@ -4,28 +4,29 @@ require 'database.php';
 if( isset($_SESSION['user_id'])) {
 	header("Location: ");
 }
+
 $game_name = $_POST['game_name'];
 
 
+if(!empty($_POST['comment_id']) && !empty($_POST['comment_text'])  && !empty($_POST['comment_date'])){
 
- $records2 = $conn->prepare('INSERT INTO written VALUES (:comment_id, :player_id, :game_name))');
- $records2->bindParam(':comment_id', $_POST['comment_id']);
-   $records2->bindParam(':player_id', $_SESSION['user_id']);
-   $records2->bindParam(':game_name', $game_name);
-        $records2->execute();
-        $results2 = $records2->fetchAll();
+    $records = $conn->prepare('INSERT INTO comment(comment_id, approval_status, comment_text, comment_date,like_count,dislike_count) VALUES (?,?,?,?,?,?)');
+    $records->execute(array($_POST['comment_id'],0, $_POST['comment_text'] , $_POST['comment_date'] ,NULL,NULL));
+    //$results = $records->fetch(PDO::FETCH_ASSOC);
 
+    $sonuc=$records->errorInfo();
+    print_r($sonuc);
 
+ $records2 = $conn->prepare('INSERT INTO written(comment_id, player_id, game_name) VALUES (?,?,?)');
+//$company =  $_SESSION['company_id'] ;
+ $company = "p1" ;
+ //$_SESSION['user_id']
+ $records2->execute(array($_POST['comment_id'],$company , $game_name));
 
+    $sonuc=$records2->errorInfo();
+    print_r($sonuc);
 
-  $records = $conn->prepare('INSERT INTO comment VALUES (:comment_id, TRUE, :comment_text, :comment_date, FALSE, FALSE))');
-  $records->bindParam(':comment_id', $_POST['comment_id']);
-  $records->bindParam(':comment_text', $_POST['comment_text']);
-  $records->bindParam(':comment_date', $_POST['comment_date']);
-        $records->execute();
-        $results = $records->fetchAll();
-
-
+}
  
 ?>
 
@@ -128,9 +129,9 @@ th,td {
     <table align = "center">
             <thead>
 				<tr>
-                <td><a href="player_market.php"><button type="button" style="float: right;" class="btn_name">Market Place</button></td>
-	                <td><a href="player_games.php"><button type="button" style="float: right;" class="btn_name">Games</button></td>
-	                <td><a href="player_profile.php"><button type="button" style="float: right;" class="btn_name">Profile</button></td>
+                <td><a href="../../Desktop/Ethereal-master/src/player_market.php"><button type="button" style="float: right;" class="btn_name">Market Place</button></td>
+	                <td><a href="../../Desktop/Ethereal-master/src/player_games.php"><button type="button" style="float: right;" class="btn_name">Games</button></td>
+	                <td><a href="../../Desktop/Ethereal-master/src/player_profile.php"><button type="button" style="float: right;" class="btn_name">Profile</button></td>
 				</tr>
 			 <thead>
 	</table>
@@ -168,20 +169,21 @@ th,td {
         <p>Choose Game</p>
         <select name="game_name" multiple>
 
-                  
+
 
                       <?php
 
                       $records = $conn->prepare('select distinct game_name from bought where player_id = :player_id'); // = ' .$_SESSION['company_id'].);
-
-                      $records->bindParam(':player_id',$_SESSION['user_id'] );
+                       $company = "p1" ;
+                       //$_SESSION['user_id']
+                      $records->bindParam(':player_id',$company );
                       $records->execute();
                       $results = $records->fetchAll();
                       foreach($results as $result){
                           echo "<option value =\"" . $result['game_name'] . "\">" . $result['game_name'] . "</option>";
                       }
                       ?>
-                    
+
         </select>
     </p>
 
