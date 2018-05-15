@@ -18,10 +18,8 @@ if(!empty($_POST['comment_id']) && !empty($_POST['comment_text'])  && !empty($_P
     print_r($sonuc);
 
  $records2 = $conn->prepare('INSERT INTO written(comment_id, player_id, game_name) VALUES (?,?,?)');
-//$company =  $_SESSION['company_id'] ;
- $company = "p1" ;
- //$_SESSION['user_id']
- $records2->execute(array($_POST['comment_id'],$company , $game_name));
+
+ $records2->execute(array($_POST['comment_id'],$_SESSION['user_id'] , $game_name));
 
     $sonuc=$records2->errorInfo();
     print_r($sonuc);
@@ -174,9 +172,7 @@ th,td {
                       <?php
 
                       $records = $conn->prepare('select distinct game_name from bought where player_id = :player_id'); // = ' .$_SESSION['company_id'].);
-                       $company = "p1" ;
-                       //$_SESSION['user_id']
-                      $records->bindParam(':player_id',$company );
+                      $records->bindParam(':player_id',$_SESSION['user_id'] );
                       $records->execute();
                       $results = $records->fetchAll();
                       foreach($results as $result){
