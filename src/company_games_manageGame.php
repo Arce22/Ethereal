@@ -27,7 +27,6 @@ if(!empty($_POST['game_name']) && !empty($_POST['description']) )
     $records = $conn->prepare('UPDATE game SET  description = :description WHERE game_name = :game_name');
     $records->bindParam(':description' , $_POST['description']);
     $records->bindParam(':game_name' , $_POST['game_name']);
-
     $records->execute();
 
     echo '<script language="javascript">';
@@ -58,7 +57,6 @@ if(!empty($_POST['game_name']) && !empty($_POST['category']) )
     echo '<script language="javascript">';
     echo 'alert("Successfully Game Updated Category ")';
     echo '</script>';
-
 }
 
 if(!empty($_POST['game_name']) && !empty($_POST['updated_date']) )
@@ -68,21 +66,42 @@ if(!empty($_POST['game_name']) && !empty($_POST['updated_date']) )
     $records->bindParam(':published_date' , $_POST['published_date']);
     $records->execute();
 
-
     echo '<script language="javascript">';
     echo 'alert("Successfully Game Updated Date ")';
     echo '</script>';
 
 }
+
 if(!empty($_POST['game_name']) && !empty($_POST['delete_game']) )
 {
-    $records = $conn->prepare('delete from game where company_id = :company_id and game_name = :game_name'); // = ' .$_SESSION['company_id'].);
     $company = $_SESSION['company_id'];
-    //$company = "a" ;
+
+    $records = $conn->prepare('delete from discount where company_id = :company_id and game_name = :game_name'); // = ' .$_SESSION['company_id'].);
     $records->bindParam(':company_id',$company );
     $records->bindParam(':game_name' ,$_POST['game_name']);
     $records->execute();
 
+    $records1 = $conn->prepare('delete from bought where game_name = :game_name'); // = ' .$_SESSION['company_id'].);
+    $records1->bindParam(':game_name' ,$_POST['game_name']);
+    $records1->execute();
+
+    $records2 = $conn->prepare('delete from updates where company_id = :company_id and game_name = :game_name'); // = ' .$_SESSION['company_id'].);
+    $records2->bindParam(':company_id',$company );
+    $records2->bindParam(':game_name' ,$_POST['game_name']);
+    $records2->execute();
+
+    $records3 = $conn->prepare('delete from played where game_name = :game_name'); // = ' .$_SESSION['company_id'].);
+    $records3->bindParam(':game_name' ,$_POST['game_name']);
+    $records3->execute();
+
+    $records4 = $conn->prepare('delete from written where game_name = :game_name'); // = ' .$_SESSION['company_id'].);
+    $records4->bindParam(':game_name' ,$_POST['game_name']);
+    $records4->execute();
+
+    $records5 = $conn->prepare('delete from game where company_id = :company_id and game_name = :game_name'); // = ' .$_SESSION['company_id'].);
+    $records5->bindParam(':company_id',$company );
+    $records5->bindParam(':game_name' ,$_POST['game_name']);
+    $records5->execute();
 
     echo '<script language="javascript">';
     echo 'alert("Successfully Game Deleted")';
