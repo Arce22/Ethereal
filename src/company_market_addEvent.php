@@ -14,7 +14,7 @@ if( isset($_SESSION['company_id'])) {
 if(!empty($_POST['game_name']) && !empty($_POST['event_id']) && !empty($_POST['percent']) && !empty($_POST['description']) && !empty($_POST['end_date'])):
 echo $_POST['start_date'] ;
 
-$game_name =  $_POST['game_name'];
+    $game_name =  $_POST['game_name'];
     $company_id =   $_SESSION['company_id'] ;
     $event_id =  $_POST['event_id'];
     $percent =  $_POST['percent'];
@@ -25,12 +25,34 @@ $game_name =  $_POST['game_name'];
 
 
     $records1 = $conn->prepare('insert into discount (company_id, game_name, event_id, percent )values (?,?,?,?)');
-    echo  $_POST['game_name'];
+  
    // $records1->bindParam('company_id',$_SESSION['company_id']);
    // $records1->bindParam('game_name' , $_POST['game_name']);
     //$records1->bindParam('event_id' , $_POST['event_id']);
     //$records1->bindParam('percent' , $_POST['percent']); $_SESSION['company_id']
     $records1->execute(array( $_SESSION['company_id'] ,  $game_name, $event_id,  $percent));
+   echo  $_POST['game_name'];
+        
+     $records4 = $conn->prepare('select * from game where game_name= :game_name');   
+            $records4->bindParam(':game_name', $_POST['game_name']);
+             $records4->execute();
+                $results4 = $records4->fetch(PDO::FETCH_ASSOC);
+
+              $price= $results4['price'];
+              echo   "price".$price;
+              $price=  $price-(($price* $percent)/100);
+                echo   "percent".$percent;
+
+        $records3 = $conn->prepare('update game set price=:new_price where game_name= :game_name');
+                echo  $_POST['game_name'];
+               
+                $records3->bindParam(':game_name',$game_name);
+                $records3->bindParam(':new_price' ,  $price);
+                 $records3->execute();
+                    $results3 = $records3->fetch(PDO::FETCH_ASSOC);
+                      
+
+
 
 endif;
 
@@ -181,7 +203,7 @@ endif;
             $records->execute();
             $results = $records->fetchAll();
             foreach($results as $result){
-                echo "<option value =\"" . $result['game_name'] . "\"> " . $result['game_name'] . "</option> ";
+                echo "<option value =\"" . $result['game_name'] . "\">" . $result['game_name'] . "</option>";
             }
             ?>
 
