@@ -26,8 +26,9 @@ p {
 }
 th,td {
     border: 1px solid black;
-	   padding: 15px;
+     padding: 15px;
 }
+
 .vertical-menu {
     width: 200px; /* Set a width if you like */
 }
@@ -137,8 +138,17 @@ th,td {
 
 
 
-  <div>
-      <span style="float:right" class = "center"
+
+    <div>   
+   <table align = "center">
+   <thead>
+        <th>Player Name</th><br />
+        <th>Information</th><br />
+        <th>Ban</th><br />
+        <th>Warn</th><br /
+    </thead>
+    <tbody>
+     
       <label> Player List: </label></br>
          <?php
          
@@ -149,18 +159,22 @@ th,td {
             foreach($results as $result) {
 
    
-             echo $result['player_id'];
-             echo "&nbsp&nbsp<td><a href =\"./admin_player_profile_sideView.php?player_id=" . $result['player_id']. "\"><input type=\"submit\"  value=\"Information\" /></a></form></td>";
-             echo "&nbsp&nbsp<td><a href =\"./admin_manage_players_ban.php?player_id="  . $result['player_id']. "\"><input type=\"submit\"  value=\"Ban\" /></a></form></td>";
-              echo "&nbsp&nbsp<td><a href =\"./admin_manage_players_warned.php?player_id="  . $result['player_id']. "\"><input type=\"submit\"  value=\"Warn\" /></a></form></td>";
-             echo "</br>";
+              echo "<tr>";
+              echo "<td>" . $result['player_id']."</td>" . "<br>";
+             echo "<td><a href =\"./admin_player_profile_sideView.php?player_id=" . $result['player_id']. "\"><input type=\"submit\"  value=\"Information\" /></a></form></td>";
+             echo "<td><a href =\"./admin_manage_players_ban.php?player_id="  . $result['player_id']. "\"><input type=\"submit\"  value=\"Ban\" /></a></form></td>";
+              echo "<td><a href =\"./admin_manage_players_warned.php?player_id="  . $result['player_id']. "\"><input type=\"submit\"  value=\"Warn\" /></a></form></td>";
+             echo "</tr>";
             }
 
          ?>
       
-      </span>
+      
+        </tbody>
+  </table>
+ </div>
  
-   </div>
+
 
 
 
