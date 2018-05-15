@@ -93,7 +93,6 @@ th,td {
             <thead>
 				<tr>
                     <td><a href="admin_market.php"><button type="button" style="float: right;" class="btn_name">Market Place</button></td>
-	                <td><a href="admin_games.php"><button type="button" style="float: right;" class="btn_name">Games</button></td>
 	                <td><a href="admin_profile.php"><button type="button" style="float: right;" class="btn_name">Profile</button></td>
 				</tr>
 			</thead>
