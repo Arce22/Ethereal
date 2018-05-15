@@ -137,9 +137,16 @@ th,td {
 
 
 
-  <div>
-      <span style="float:right" class = "center"
-      <label> Company List: </label></br>
+    <div>   
+   <table align = "center">
+   <thead>
+        <th>Company Name</th><br />
+        <th>Information</th><br />
+        <th>Ban</th><br />
+        
+    </thead>
+    <tbody>
+     
          <?php
          
             $records = $conn->prepare('select * from company'); // = ' .$_SESSION['company_id'].);
@@ -148,18 +155,21 @@ th,td {
 
             foreach($results as $result) {
 
-   
-             echo $result['company_id'];
-             echo "&nbsp&nbsp<td><a href =\"./company_profile_sideView.php?company_id=" . $result['company_id']. "\"><input type=\"submit\"  value=\"Information\" /></a></form></td>";
-             echo "&nbsp&nbsp<td><a href =\"./admin_manage_companies_ban.php?company_id="  . $result['company_id']. "\"><input type=\"submit\"  value=\"Ban\" /></a></form></td>";
-             echo "</br>";
+              echo "<tr>";
+              echo "<td>" .  $result['company_id']."</td>" . "<br>";
+             echo "<td><a href =\"./company_profile_sideView.php?company_id=" . $result['company_id']. "\"><input type=\"submit\"  value=\"Information\" /></a></form></td>";
+             echo "<td><a href =\"./admin_manage_companies_ban.php?company_id="  . $result['company_id']. "\"><input type=\"submit\"  value=\"Ban\" /></a></form></td>";
+             echo "</tr>";
             }
 
          ?>
-      
-      </span>
+         
+        </tbody>
+  </table>
+ </div>
  
-   </div>
+
+
 
 
 
