@@ -199,6 +199,59 @@ th,td {
   </table>
 
  </div>
+
+  <div>   
+   <table align = "right">
+   <thead>
+        <th>Popular Categories</th><br />
+    </thead>
+    <tbody>
+        <?php
+
+        $records1 = $conn->prepare('select category_name, count(category_name) as number from game group by category_name order by number desc');
+        //$records1->bindParam(':player_id', $_SESSION['user_id']);
+        $records1->execute();
+        $results1 = $records1->fetchAll();
+
+        foreach($results1 as $result)
+        {
+            echo "<tr>";
+            echo "<td>" . $result['category_name'] . "</td>" . "<br>";
+            echo "</tr>";
+        }
+        ?>
+        </tbody>
+  </table>
+
+ </div>
+
+  </div>
+
+<div>   
+ <table align = "left">
+ <thead>
+      <th>Mostly Played Categories</th><br />
+  </thead>
+  <tbody>
+      <?php
+
+      $records1 = $conn->prepare('select category_name, count(category_name) as number from game natural join played group by category_name order by number desc');
+      //$records1->bindParam(':player_id', $_SESSION['user_id']);
+      $records1->execute();
+      $results1 = $records1->fetchAll();
+
+      foreach($results1 as $result)
+      {
+          echo "<tr>";
+          echo "<td>" . $result['category_name'] . "</td>" . "<br>";
+          echo "</tr>";
+      }
+      ?>
+      </tbody>
+</table>
+
+</div>
+
  
  
 

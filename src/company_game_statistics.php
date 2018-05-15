@@ -224,7 +224,39 @@ th,td {
         ?>
         </tbody>
     </table>
+
+    <table align = "right">
+
+<thead>
+    <th>Game Name</th><br />
+    <th>Age</th><br />
+    <th>Count of Players</th><br />
+</thead>
+<tbody>
+    <?php
+  
+
+    $records = $conn->prepare('SELECT game_name, age, number from (SELECT game_name, (played_date - birth_date) as age, count(player_id) as number from Player natural join Information natural join Played group by game_name) as T where game_name = :game_name');
+    $records->bindParam(':game_name', $game_name);
+    $records->execute();
+    $results = $records->fetchAll();
+
+    foreach($results as $result)
+    {
+        echo "<tr>";
+        echo "<td>" . $result['game_name'] . "</td>" . "<br>";
+        echo "<td>" . $result['age'] . "</td>" . "<br>";
+        echo "<td>" . $result['number'] . "</td>" . "<br>";
+        echo "</tr>";
+    }
+    ?>
+    </tbody>
+</table>
+
    </div>
+
+
+
 
  
  
