@@ -140,7 +140,6 @@ th,td {
    <thead>
         <th>Games Bought</th><br />
         <th>See More!</th><br />
-        <th>Comments</th><br />
     </thead>
     <tbody>
         <?php
@@ -155,7 +154,6 @@ th,td {
             echo "<tr>";
             echo "<td>" . $result['game_name'] . "</td>" . "<br>";
             echo "<td><a href =\"./player_market_gameInfo.php?game_name="  . $result['game_name']. "\"><input type=\"submit\"  value=\"Information\" /></form></td>";
-            echo "<td><a href =\"./player_makeComment.php  . $result['game_name']. "\"><input type=\"submit\"  value=\"Make Comment\" /></form></td>";
             echo "</tr>";
         }
         
